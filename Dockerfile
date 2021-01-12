@@ -4,7 +4,8 @@ COPY --from=innovanon/xorgproto   /tmp/xorgproto.txz   /tmp/
 COPY --from=innovanon/libxau      /tmp/libXau.txz      /tmp/
 RUN cat   /tmp/*.txz  \
   | tar Jxf - -i -C / \
- && rm -v /tmp/*.txz
+ && rm -v /tmp/*.txz  \
+ && ldconfig
 
 ARG LFS=/mnt/lfs
 WORKDIR $LFS/sources
@@ -18,6 +19,7 @@ RUN sleep 31                                                                    
  && make DESTDIR=/tmp/libXdmcp install                                                   \
  && rm -rf                                                                  libXdmcp     \
  && cd           /tmp/libXdmcp                                                           \
+ && strip.sh .                                                                           \
  && tar acf        ../libXdmcp.txz .                                                     \
  && cd ..                                                                                \
  && rm -rf       /tmp/libXdmcp
