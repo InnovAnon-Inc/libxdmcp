@@ -1,4 +1,5 @@
 FROM innovanon/xorg-base:latest as builder-01
+USER root
 COPY --from=innovanon/util-macros /tmp/util-macros.txz /tmp/
 COPY --from=innovanon/xorgproto   /tmp/xorgproto.txz   /tmp/
 COPY --from=innovanon/libxau      /tmp/libXau.txz      /tmp/
@@ -17,7 +18,7 @@ RUN sleep 31                                                                    
  && rm -rf                                                                  libXdmcp     \
  && cd           /tmp/libXdmcp                                                           \
  && strip.sh .                                                                           \
- && tar acf        ../libXdmcp.txz .                                                     \
+ && tar  pacf        ../libXdmcp.txz .                                                     \
  && cd ..                                                                                \
  && rm -rf       /tmp/libXdmcp
 
